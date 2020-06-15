@@ -1,31 +1,38 @@
 {-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE DeriveAnyClass #-}
-
-import Aws.Lambda
-import GHC.Generics
-import Data.Aeson
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Main where
 
+import Aws.Lambda
+import Aws.Lambda.Runtime
+import GHC.Generics
+import Data.Aeson
+import Data.Either
+import Data.Text (Text)
+import Network.HTTP.Types.Header
+
 main :: IO ()
-main = runLambda run
+main =  runLambda run
   where
-   run ::  LambdaOptions -> IO (Either String LambdaResult)
+   run ::  LambdaOptions -> IO (Either a LambdaResult)
    run opts = do
-    result <- handler (decodeObj (eventObject opts)) (decodeObj (contextObject opts))
-    either (pure . Left . encodeObj) (pure . Right . LambdaResult . encodeObj) result
+    result <- either (error . show) id $ handler <$> (decodeObj (eventObject opts)) <*> (decodeObj (contextObject opts))
+    either error (pure . Right . StandaloneLambdaResult . encodeObj) result
 
 data Event = Event
-  { path :: T.Text
-  , body :: Maybe T.Text
+  { path :: Text
+  , body :: Maybe Text
   } deriving (Generic, FromJSON)
 
 data Response = Response
   { statusCode :: Int
-  , headers :: Value
-  , body :: T.Text
+  , headers :: [(Text, Text)]
+  , body :: Text
   , isBase64Encoded :: Bool
   } deriving (Generic, ToJSON)
 
 handler :: Event -> Context -> IO (Either String Response)
-handler Event{body, path} context =
+handler Event{body, path} context = return $ Right $ Response 200 mempty "Hello LAMBDA MOTHERFOCKER!!" False
