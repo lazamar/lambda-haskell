@@ -8,8 +8,6 @@ version:             0.1.0.0
 -- synopsis:
 -- description:
 -- bug-reports:
--- license:
-license-file:        LICENSE
 author:              Marcelo Lazaroni
 maintainer:          lazaronijunior@gmail.com
 -- copyright:
@@ -22,10 +20,10 @@ executable lambda-test
   -- other-modules:
   -- other-extensions:
   build-depends:
-    base >=4.13 && <4.14
+    base
     , aeson
     , text
-    , aws-lambda-haskell-runtime >= 2.0.6
+    , aws-lambda-haskell-runtime == 2.0.3
     , http-types
 
   -- hs-source-dirs:

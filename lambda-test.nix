@@ -1,5 +1,5 @@
-{ mkDerivation, aeson, aws-lambda-haskell-runtime, base, stdenv
-, text
+{ mkDerivation, aeson, aws-lambda-haskell-runtime, base, http-types
+, stdenv, text
 }:
 mkDerivation {
   pname = "lambda-test";
@@ -8,7 +8,7 @@ mkDerivation {
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    aeson aws-lambda-haskell-runtime base text
+    aeson aws-lambda-haskell-runtime base http-types text
   ];
   license = "unknown";
   hydraPlatforms = stdenv.lib.platforms.none;

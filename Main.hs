@@ -19,20 +19,18 @@ main =  runLambda run
   where
    run ::  LambdaOptions -> IO (Either a LambdaResult)
    run opts = do
-    result <- either (error . show) id $ handler <$> (decodeObj (eventObject opts)) <*> (decodeObj (contextObject opts))
-    either error (pure . Right . StandaloneLambdaResult . encodeObj) result
+    result <- handler (decodeObj (eventObject opts)) (decodeObj (contextObject opts))
+    either error (pure . Right . LambdaResult . encodeObj) result
 
-data Event = Event
-  { path :: Text
-  , body :: Maybe Text
-  } deriving (Generic, FromJSON)
+type Event = Value
 
 data Response = Response
   { statusCode :: Int
   , headers :: [(Text, Text)]
-  , body :: Text
+  , body :: String
   , isBase64Encoded :: Bool
   } deriving (Generic, ToJSON)
 
 handler :: Event -> Context -> IO (Either String Response)
-handler Event{body, path} context = return $ Right $ Response 200 mempty "Hello LAMBDA MOTHERFOCKER!!" False
+handler e context = return $ Right $ Response 200 mempty
+    ("Hello Lambda " ++ show e) False
