@@ -2,28 +2,38 @@ name: CI
 
 # Trigger the workflow on push or pull request, but only for the master branch
 on:
-  pull_request:
-  push:
-    branches: [master]
+    pull_request:
+    push:
+        branches: [master]
 
 jobs:
-  main:
-    name: Build
-    runs-on: ubuntu-latest
+    main:
+        name: Build
+        runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
+        steps:
+            - uses: actions/checkout@v2
+              if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
 
-    - uses: cachix/install-nix-action@v10
-      with:
-        # We are using a pinned version
-        skip_adding_nixpkgs_channel: true
+            - uses: cachix/install-nix-action@v10
+              with:
+                # We are using a pinned version
+                skip_adding_nixpkgs_channel: true
 
-    - uses: cachix/cachix-action@v6
-      name: Cache cabal-store
-      with:
-        name: lazamar
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+            - uses: cachix/cachix-action@v6
+              with:
+                name: lazamar
+                signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
 
-    - run: nix-build
+            - run: nix-build | cachix push lazamar
+
+            - name: AWS setup
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+                aws-region: eu-west-2
+
+            - name: Deploy to Lambda
+              run: |
+                aws lambda update-function-code --function-name lambda-test --zip-file fileb://result/function.zip

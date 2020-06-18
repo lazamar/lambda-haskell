@@ -33,4 +33,4 @@ data Response = Response
 
 handler :: Event -> Context -> IO (Either String Response)
 handler e context = return $ Right $ Response 200 mempty
-    ("Hello Lambda " ++ show e) False
+    ("Hello from GitHub Actions " ++ show e) False
