@@ -1,0 +1,29 @@
+name: CI
+
+# Trigger the workflow on push or pull request, but only for the master branch
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  main:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
+
+    - uses: cachix/install-nix-action@v10
+      with:
+        # We are using a pinned version
+        skip_adding_nixpkgs_channel: true
+
+    - uses: cachix/cachix-action@v6
+      name: Cache cabal-store
+      with:
+        name: lazamar
+        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+
+    - run: nix-build
