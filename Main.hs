@@ -10,8 +10,11 @@ import Aws.Lambda
 import Aws.Lambda.Runtime
 import GHC.Generics
 import Data.Aeson
+import Data.Aeson.Encode.Pretty
 import Data.Either
 import Data.Text (Text)
+import Data.Text.Lazy (toStrict)
+import Data.Text.Lazy.Encoding (decodeUtf8)
 import Network.HTTP.Types.Header
 
 main :: IO ()
@@ -27,10 +30,11 @@ type Event = Value
 data Response = Response
   { statusCode :: Int
   , headers :: [(Text, Text)]
-  , body :: String
+  , body :: Text
   , isBase64Encoded :: Bool
   } deriving (Generic, ToJSON)
 
 handler :: Event -> Context -> IO (Either String Response)
-handler e context = return $ Right $ Response 200 mempty
-    ("Hello from GitHub Actions " ++ show e) False
+handler e context = return
+    $ Right
+    $ Response 200 mempty (toStrict $ decodeUtf8 $ encodePretty e) False

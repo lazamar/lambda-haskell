@@ -8,9 +8,9 @@ let
     pkgs = (import (sources.nixpkgs-static + "/survey/default.nix") {}).pkgs;
 
     lambda-test-def =
-        { mkDerivation, aeson, aws-lambda-haskell-runtime, base, http-types
-        , stdenv, text
-        }:
+      { mkDerivation, aeson, aws-lambda-haskell-runtime, base, http-types,
+        aeson-pretty , stdenv, text
+      }:
         mkDerivation {
             pname = "lambda-test";
             version = "0.1.0.0";
@@ -18,7 +18,7 @@ let
             isLibrary = false;
             isExecutable = true;
             executableHaskellDepends = [
-              aeson aws-lambda-haskell-runtime base http-types text
+              aeson aws-lambda-haskell-runtime base http-types text aeson-pretty
             ];
             license = "unknown";
             hydraPlatforms = stdenv.lib.platforms.none;

@@ -22,6 +22,7 @@ executable lambda-test
   build-depends:
     base
     , aeson
+    , aeson-pretty
     , text
     , aws-lambda-haskell-runtime == 2.0.3
     , http-types
