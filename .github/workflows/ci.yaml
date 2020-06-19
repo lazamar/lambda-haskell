@@ -25,6 +25,8 @@ jobs:
                 name: lazamar
                 signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
 
+            - run: cachix use lazamar
+            - run: cachix use static-haskell-nix
             - run: nix-build | cachix push lazamar
 
             - name: AWS setup
