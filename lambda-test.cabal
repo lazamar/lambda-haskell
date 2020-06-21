@@ -24,7 +24,7 @@ executable lambda-test
     , aeson
     , aeson-pretty
     , text
-    , aws-lambda-haskell-runtime == 2.0.3
+    , aws-lambda-haskell-runtime >= 2.0.1 && < 3.0.0
     , http-types
 
   -- hs-source-dirs:

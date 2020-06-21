@@ -11,6 +11,18 @@
         "url": "https://github.com/theam/aws-lambda-haskell-runtime/archive/7bdd808d0a1e46ce2d15e09ddf295bbb87c3ad2a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "gitignore": {
+        "branch": "master",
+        "description": "Nix function for filtering local git sources",
+        "homepage": "",
+        "owner": "hercules-ci",
+        "repo": "gitignore",
+        "rev": "647d0821b590ee96056f4593640534542d8700e5",
+        "sha256": "0ks37vclz2jww9q0fvkk9jyhscw0ial8yx2fpakra994dm12yy1d",
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore/archive/647d0821b590ee96056f4593640534542d8700e5.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "niv": {
         "branch": "master",
         "description": "Easy dependency management for Nix projects",
@@ -24,15 +36,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "nixos-19.09",
-        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
-        "homepage": "https://github.com/NixOS/nixpkgs",
+        "branch": "master",
+        "description": "Nix Packages collection",
+        "homepage": null,
         "owner": "NixOS",
-        "repo": "nixpkgs-channels",
-        "rev": "8260cd5bc65fad88ad8881b32c990e5659cc417a",
-        "sha256": "0lxpjly889jksyf944nm25f0syqdxy2ya3p7cdzz4wfqbr76blln",
+        "repo": "nixpkgs",
+        "rev": "dcb64ea42e64aaecd8e6fef65cc86245c9666818",
+        "sha256": "0i77sgs0gic6pwbkvk9lbpfshgizdrqyh18law2ji1409azc09w0",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/8260cd5bc65fad88ad8881b32c990e5659cc417a.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/dcb64ea42e64aaecd8e6fef65cc86245c9666818.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs-static": {
