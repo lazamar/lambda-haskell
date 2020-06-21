@@ -9,7 +9,7 @@ let
       normalPkgs = import sources.nixpkgs {};
     }).pkgs;
 
-    gitignoreSource = (import sources.gitignore {}).gitignoreSource;
+    gitignoreSource = (import sources.gitignore { lib = pkgs.lib; }).gitignoreSource;
 
     lambda-test =
         pkgs.haskell.lib.overrideCabal
