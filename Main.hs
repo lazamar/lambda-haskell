@@ -37,4 +37,4 @@ data Response = Response
 handler :: Event -> Context -> IO (Either String Response)
 handler e context = return
     $ Right
-    $ Response 200 mempty ("Hi new nix lambda" <> (toStrict $ decodeUtf8 $ encodePretty e)) False
+    $ Response 200 mempty (toStrict $ decodeUtf8 $ encodePretty e) False
