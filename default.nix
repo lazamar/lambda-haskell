@@ -23,7 +23,6 @@ let
             (pkgs.haskellPackages.callCabal2nix "lambda-test" (gitignoreSource ./.) {})
             # Set flags that make sure that we are building a truly static executable
             (old: {
-                  hydraPlatforms = pkgs.stdenv.lib.platforms.none;
                   configureFlags = [
                     "-flambda"
                     "--ghc-option=-optl=-static"

@@ -25,7 +25,7 @@ main =  runLambda run
     result <- either (error . show) id $ handler <$> (decodeObj (eventObject opts)) <*> (decodeObj (contextObject opts))
     either error (pure . Right . StandaloneLambdaResult . encodeObj) result
 
-type Event = Value
+type Request = Value
 
 data Response = Response
   { statusCode :: Int
@@ -34,7 +34,7 @@ data Response = Response
   , isBase64Encoded :: Bool
   } deriving (Generic, ToJSON)
 
-handler :: Event -> Context -> IO (Either String Response)
+handler :: Request -> Context -> IO (Either String Response)
 handler e context = return
     $ Right
     $ Response 200 mempty (toStrict $ decodeUtf8 $ encodePretty e) False

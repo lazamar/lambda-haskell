@@ -12,21 +12,24 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            # Load the source code into CI by checking out the branch
             - uses: actions/checkout@v2
-              if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
 
+            # Install cachix
             - uses: cachix/install-nix-action@v10
-              with:
-                # We are using a pinned version
-                skip_adding_nixpkgs_channel: true
 
+            # Sign-in to cachix. This allows me to save to cachix
+            # the binaries created during CI runs
             - uses: cachix/cachix-action@v6
               with:
                 name: lazamar
                 signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
 
+            # Select the caches I want to use
             - run: cachix use lazamar
             - run: cachix use static-haskell-nix
+
+            # Build my code and save binaries to my cache if they are not already there
             - run: nix-build | cachix push lazamar
 
             - name: AWS setup
